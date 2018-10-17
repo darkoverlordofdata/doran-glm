@@ -3,15 +3,18 @@
   "template": "package",
   "version": "0.0.1",
   "vala": "0.26",
-  "authors": ["Recep Aslantas <info@recp.me>", "Bruce Davidson <darkoverlordofdata@gmail.com"],
+  "authors": [
+    "Recep Aslantas <info@recp.me>",
+    "Bruce Davidson <darkoverlordofdata@gmail.com"
+  ],
   "description": "Optimized OpenGL/Graphics Math (glm) for C",
   "license": "MIT",
   "private": false,
   "dependencies": {},
   "source": "src",
   "files": [
-    "src/glm.vapi",
-    "src/glm.c"
+    "src/glm.c",
+    "src/glm.vapi"
   ],
   "packages": null,
   "includes": [

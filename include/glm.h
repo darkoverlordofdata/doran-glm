@@ -8,7 +8,7 @@
 /**
  * Vector/Matrix types for use with Vala
  */
-#include "cglm.h"
+#include "cglm/cglm.h"
 
 typedef struct _Vec2 Vec2;
 typedef struct _Vec2
