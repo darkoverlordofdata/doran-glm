@@ -6,7 +6,16 @@
  */
 #include <stddef.h>
 #include <string.h>
-#include "cglm.h"
+#include "glm.h"
+
+static int rawcast(float x) {
+  union {
+    float f;
+    int i;
+  } u;
+  u.f = x;
+  return u.i;
+}
 
 /**
  * Vec2 constructor
@@ -31,6 +40,41 @@ void  glm_vec2_unref(Vec2* this) {
     else this->ref_count--;
 }
 
+int glm_vec2_hash(Vec2* this) {
+  return abs( rawcast(this->X) ^ rawcast(this->Y) );
+}
+
+bool glm_vec2_equals(Vec2* this, Vec2* other) {
+    if (this->X == other->X && this->Y == other->Y)
+        return true;
+    else
+        return false;
+}
+
+void glm_vec2_sub(Vec2* this, Vec2* other, Vec2* dest) {
+    dest->X = this->X - other->X;
+    dest->Y = this->Y - other->Y;
+}
+
+void glm_vec2_scale(Vec2* this, float scale, Vec2* dest) {
+    dest->X = this->X * scale;
+    dest->Y = this->Y * scale;
+}
+
+float glm_vec2_len(Vec2* this)
+{
+    return sqrtf(this->X * this->X + this->Y * this->Y);
+}
+float glm_vec2_len2(Vec2* this)
+{
+    return this->X * this->X + this->Y * this->Y;
+}
+void glm_vec2_normalize(Vec2* this)
+{
+    float len = glm_vec2_len(this);
+    this->X /= len;
+    this->Y /= len;
+}
 /**
  * Vec3 constructor
  * 
@@ -55,6 +99,16 @@ void  glm_vec3_unref(Vec3* this) {
     else this->ref_count--;
 }
 
+int glm_vec3_hash(Vec3* this) {
+  return abs( rawcast(this->X) ^ rawcast(this->Y) ^ rawcast(this->Z) );
+}
+
+bool glm_vec3_equals(Vec3* this, Vec3* other) {
+    if (this->X == other->X && this->Y == other->Y && this->Z == other->Z)
+        return true;
+    else
+        return false;
+}
 
 /**
  * Vec4 constructor

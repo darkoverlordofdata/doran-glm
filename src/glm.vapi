@@ -24,7 +24,7 @@ THE SOFTWARE.
 */
 [Version (since = "0.4.9")] // cglm v0.4.9
 [CCode (cprefix = "", lower_case_cprefix = "", cheader_filename = "glm.h")]
-namespace glm
+namespace Glm
 {
 	/**
 	 * bindings for cglm
@@ -35,20 +35,53 @@ namespace glm
 	public const int CGLM_VERSION_MINOR;
 	public const int CGLM_VERSION_PATCH;
 
+
 	/**
 	 * Vec2
 	 */
 	[Compact, CCode (ref_function = "glm_vec2_ref", unref_function = "glm_vec2_unref")]
 	public class Vec2 
 	{ 
-		public float x; // same as data[0]
-		public float y; // same as data[1]
+		public float X; // same as data[0]
+		public float Y; // same as data[1]
 		public float data[2];
 
 		[CCode (cname = "glm_vec2_new")]
 		public Vec2(float x = 0f, float y = 0f);
 		[CCode (cname = "glm_vec2_print")]
 		public void Print(GLib.FileStream ostream = GLib.stdout);
+		[CCode (cname = "glm_vec2_hash")]
+		public int GetHashCode();
+		[CCode (cname = "glm_vec2_equals")]
+		public bool Equals(Vec2 other);
+		[CCode (cname = "glm_vec2_len2")]
+		public float LengthSquared();
+		[CCode (cname = "glm_vec2_len")]
+		public float Length();
+
+		public Vec2 Sub(Vec2 other)
+		{
+			glm_vec2_sub(this, other, this);
+			return this;
+		}
+		
+		public Vec2 Multiply(float f)
+		{
+			glm_vec2_scale(this, f, this);
+			return this;
+		}
+
+		public Vec2 Normalize()
+		{
+			glm_vec2_normalize(this);
+			return this;
+		}
+
+		public string to_string()
+		{
+			return @"{X:$X, Y:$Y}";
+		}
+
 	}
 	
 	/**
@@ -57,9 +90,9 @@ namespace glm
 	[Compact, CCode (ref_function = "glm_vec3_ref", unref_function = "glm_vec3_unref")]
 	public class Vec3 
 	{ 
-		public float x; // same as data[0]
-		public float y; // same as data[1]
-		public float z; // same as data[2]
+		public float X; // same as data[0]
+		public float Y; // same as data[1]
+		public float Z; // same as data[2]
 		public float data[3];
 
 		[CCode (cname = "glm_vec3_new")]
@@ -71,17 +104,14 @@ namespace glm
 		}
 		[CCode (cname = "glm_vec3_print")]
 		public void Print(GLib.FileStream ostream = GLib.stdout);
+		[CCode (cname = "glm_vec3_hash")]
+		public int GetHashCode();
+		[CCode (cname = "glm_vec3_equals")]
+		public bool Equals(Vec3 other);
 
-		public Vec3 Add(Vec3 value) {
-			var result = new Vec3();
-			glm_vec_add(this, value, result);
-			return result;
-		}
-		
-		public Vec3 Scale(float value) {
-			var result = new Vec3();
-			glm_vec_scale(this, value, result);
-			return result;
+		public string to_string()
+		{
+			return @"{X:$X, Y:$Y, Z:$Z}";
 		}
 
 	}
@@ -92,10 +122,10 @@ namespace glm
 	[Compact, CCode (ref_function = "glm_vec4_ref", unref_function = "glm_vec4_unref")]
 	public class Vec4 
 	{ 
-		public float w; // same as data[0]
-		public float x; // same as data[1]
-		public float y; // same as data[2]
-		public float z; // same as data[3]
+		public float W; // same as data[0]
+		public float X; // same as data[1]
+		public float Y; // same as data[2]
+		public float Z; // same as data[3]
 		public float data[4];
 
 		[CCode (cname = "glm_vec4_new")]
@@ -115,10 +145,10 @@ namespace glm
 	[Compact, CCode (ref_function = "glm_quat_ref", unref_function = "glm_quat_unref")]
 	public class Quat 
 	{ 
-		public float w; // same as data[0]
-		public float x; // same as data[1]
-		public float y; // same as data[2]
-		public float z; // same as data[3]
+		public float W; // same as data[0]
+		public float X; // same as data[1]
+		public float Y; // same as data[2]
+		public float Z; // same as data[3]
 		public float data[4];
 
 		[CCode (cname = "glm_quat_new")]
@@ -133,6 +163,15 @@ namespace glm
 	[Compact, CCode (ref_function = "glm_mat3_ref", unref_function = "glm_mat3_unref")]
 	public class Mat3 
 	{ 
+		public float M11;
+		public float M12;
+		public float M13;
+		public float M21;
+		public float M22;
+		public float M23;
+		public float M31;
+		public float M32;
+		public float M33;
 		public float[] data[3];
 
 		[CCode (cname = "glm_mat3_new")]
@@ -148,12 +187,40 @@ namespace glm
 	[Compact, CCode (ref_function = "glm_mat4_ref", unref_function = "glm_mat4_unref")]
 	public class Mat4 
 	{ 
+		public float M11;
+		public float M12;
+		public float M13;
+		public float M14;
+		public float M21;
+		public float M22;
+		public float M23;
+		public float M24;
+		public float M31;
+		public float M32;
+		public float M33;
+		public float M34;
+		public float M41;
+		public float M42;
+		public float M43;
+		public float M44;
+
 		public float[] data[4];
 
 		[CCode (cname = "glm_mat4_new")]
 		public Mat4(float value = 1f);
 		[CCode (cname = "glm_mat4_print")]
 		public void Print(GLib.FileStream ostream = GLib.stdout);
+
+		public Mat4 Multiply(Mat4 other)
+		{
+			glm_mat4_mul(this, other, this);
+			return this;
+		}
+		public Mat4 Invert()
+		{
+			glm_mat4_inv(this, this);
+			return this;
+		}
 	}
 
 	public void  glm_cross(Vec3 a, Vec3 b, Vec3 d);
@@ -271,6 +338,11 @@ namespace glm
 	public void  glm_quat_rotate_at(Mat4 m, Quat q, Vec3 pivot);
 	public void  glm_quat_rotate_atm(Mat4 m, Quat q, Vec3 pivot);
 
+	public void  glm_vec2_sub(Vec2 a, Vec2 b, Vec2 dest);
+	public void  glm_vec2_scale(Vec2 a, float f, Vec2 dest);
+	public float glm_vec2_len(Vec2 a);
+	public float glm_vec2_len2(Vec2 a);
+	public void  glm_vec2_normalize(Vec2 a);
 
 	public void  glm_vec3(Vec4 v4, Vec3 dest);
 	public void  glm_vec3_print(Vec3 vec, GLib.FileStream ostream);
