@@ -64,7 +64,13 @@ namespace Glm
 			glm_vec2_sub(this, other, this);
 			return this;
 		}
-		
+
+		public Vec2 Mul(Vec2 other)
+		{
+			glm_vec2_mul(this, other, this);
+			return this;
+		}
+
 		public Vec2 Multiply(float f)
 		{
 			glm_vec2_scale(this, f, this);
@@ -343,6 +349,7 @@ namespace Glm
 	public float glm_vec2_len(Vec2 a);
 	public float glm_vec2_len2(Vec2 a);
 	public void  glm_vec2_normalize(Vec2 a);
+	public void  glm_vec2_mul(Vec2 a, Vec2 b, Vec2 dest);
 
 	public void  glm_vec3(Vec4 v4, Vec3 dest);
 	public void  glm_vec3_print(Vec3 vec, GLib.FileStream ostream);
